@@ -1,0 +1,57 @@
+
+
+<!-- <div *ngFor="let map of maps" >
+  <button  (click)="flyTo(map)"  >{{ map.properties.message }}</button>
+  <div class="marker" (click)="addMarkers(map)"></div>
+</div> -->
+
+<div class="wrapper">
+  
+  <div class="map" id="map"></div>
+  
+  <div class="show ">   
+      
+      
+        <mat-list-item *ngFor="let item of maps">
+          <mat-card>
+            <mat-card-content>
+              <p>
+
+                {{ item.properties.message }}
+              </p>
+              <!-- <pre>{{ item }}</pre> -->
+              
+
+             
+              <button mat-icon-button color="primary" (click)="flyTo(item)">
+                <mat-icon aria-label="Example icon-button with a heart icon">send</mat-icon>
+              </button>
+              
+               
+            
+            </mat-card-content>
+            <mat-card-actions>
+              
+              
+              <button mat-raised-button color="warn">Remove</button>
+            </mat-card-actions>
+          </mat-card>
+        </mat-list-item>
+       
+      
+  </div>
+
+  <div class="message-box">
+  
+    <mat-card>
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="your message..." [(ngModel)]="message">
+      </mat-form-field>
+    </mat-card>
+  </div>
+    
+  
+</div>
+
+
+

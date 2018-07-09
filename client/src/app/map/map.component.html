@@ -5,11 +5,17 @@
   <div class="marker" (click)="addMarkers(map)"></div>
 </div> -->
 
+
+
 <div class="wrapper">
   
-  <div class="map" id="map"></div>
+  <mat-card class="map-container">
+
+    <div class="map" id="map" style='height: 500px;'></div>
+  </mat-card>
   
-  <div class="show ">   
+  
+  <!-- <div class="show ">   
       
       
         <mat-list-item *ngFor="let item of maps">
@@ -19,7 +25,7 @@
 
                 {{ item.properties.message }}
               </p>
-              <!-- <pre>{{ item }}</pre> -->
+              
               
 
              
@@ -39,19 +45,52 @@
         </mat-list-item>
        
       
-  </div>
+  </div> -->
 
   <div class="message-box">
   
     <mat-card>
       <mat-form-field class="example-full-width">
         <input matInput placeholder="your message..." [(ngModel)]="message">
+        
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <input matInput [(ngModel)]="coor">
       </mat-form-field>
     </mat-card>
+
+   
   </div>
+
+  <div class="charts">
     
+      <mat-card class="card-chart">
+        <highcharts-chart [Highcharts]="Highcharts" [options]=" optInput" style="width: 100%; height: 400px; display: block;"></highcharts-chart>
+      </mat-card>
+      <mat-card class="card-chart">
+        <highcharts-chart [Highcharts]="Highcharts" [options]=" optInput2" style="width: 100%; height: 400px; display: block;"></highcharts-chart>
+      </mat-card>
+      <mat-card class="card-chart">
+        <highcharts-chart [Highcharts]="Highcharts" [options]=" optInput3" style="width: 100%; height: 400px; display: block;"></highcharts-chart>
+      </mat-card>
+      <mat-card class="card-chart">
+        <highcharts-chart 
+        [Highcharts]="Highcharts" 
+        [options]="  optInput4"  
+        [(update)]="updateFlag" 
+        
+        style="width: 100%; height: 400px; display: block;"></highcharts-chart>
+
+
+      </mat-card>
+
+      <button mat-raised-button (click)="chartsData()">tambah-spline</button>
+      
+  </div>
+    <!-- <p *ngFor="let item of this.optInput4.series[0].data">{{item}}</p> -->
   
 </div>
+
 
 
 

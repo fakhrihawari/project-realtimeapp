@@ -11,6 +11,8 @@ import {
   MatListModule,
   MatSidenavModule,
   MatToolbarModule,
+  MatGridListModule,
+  MatGridList
 } from '@angular/material';
 
 @NgModule({
@@ -24,7 +26,8 @@ import {
     MatInputModule,
     MatListModule,
     MatSidenavModule,
-    MatToolbarModule, 
+    MatToolbarModule,
+    MatGridListModule 
   ],
   exports: [
     MatButtonModule,
@@ -36,6 +39,7 @@ import {
     MatListModule,
     MatSidenavModule,
     MatToolbarModule,
+    MatGridListModule
   ],
   declarations: [],
   providers: [

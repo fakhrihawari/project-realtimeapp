@@ -1,9 +1,20 @@
+.map-container{
+    position: relative;
+}
 #map { 
-    position:absolute; top:64px; bottom:0; 
+    /* position:absolute; top:64px; bottom:0;  */
     width:100%; 
+    /* z-index: 0; */
+    /* height: 50%; */
+    
     /* height: 20%; */
     /* position: relative; */
    
+}
+
+.wrap-map{
+    width: 882;
+    height: 545;
 }
 .map-container{
     position: relative;
@@ -20,17 +31,41 @@
     right: 10px; */
 }
 .mat-card{
-    margin-top: 5px;
-    
+    margin-top: 5px;   
 
      
 }
 .wrapper{
 
-    margin-top:20px;
+    /* margin-top:20px; */
+    margin: 0px 10px 10px 10px;
 
 }
+.message-box{
+    /* z-index: 1;
+    position: fixed;
+    bottom: 10px;
+    right: 40%; */
+    
+    
+    
+}
 
+.message-box .mat-card{
+    width: 400px;
+}
+
+.charts{
+    display: flex;
+    flex-direction: row;
+}
+
+.card-chart{
+    width: 25%;
+    margin-right: 10px;
+}
+
+/* marker mapbox */
 .marker {
   background-image: url(../../assets/image/mapbox-icon.png);
   background-size: cover;
@@ -40,15 +75,15 @@
   cursor: pointer;
 }
 
-.message-box{
-    z-index: 1;
-    position: fixed;
-    bottom: 10px;
-    right: 40%;
-    
-    
+.mapboxgl-popup {
+    max-width: 200px;
 }
 
-.message-box .mat-card{
-    width: 400px;
+.marker-robbery {
+  background-image: url(../../assets/image/robbery.png);
+  background-size: cover;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
 }

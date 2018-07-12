@@ -150,8 +150,8 @@ export class MapComponent implements OnInit, AfterViewInit {
     //FORM
     this.form = this.fb.group({
       message:'',
-      incident:'',
-      coordinate:[]
+      incident:['', Validators.required],
+      coordinate:[[],Validators.required]
     })
   
         
@@ -540,17 +540,22 @@ export class MapComponent implements OnInit, AfterViewInit {
   }
 
   // FORM
-  onSubmit(){
-    console.log(this.form.value);
-
-    let coordinates = this.form.value.coordinate;
-    let m = this.form.value.message;
-    let i = this.form.value.incident;
-    const newMarker = new MapModel(coordinates, { message: m, incident_id: i });
-    this.map.flyTo({ center: coordinates });
-    console.log("NEW", newMarker);
-    this.socketService.send(newMarker); 
-    this.form.reset();
+  onSubmit(formData: any, formDirective: FormGroupDirective){
+    console.log(this.form.value, this.form.valid);
+    if(this.form.valid){
+      let coordinates = this.form.value.coordinate;
+      let m = this.form.value.message;
+      let i = this.form.value.incident;
+      const newMarker = new MapModel(coordinates, { message: m, incident_id: i });
+      this.map.flyTo({ center: coordinates });
+      console.log("NEW", newMarker);
+      this.socketService.send(newMarker);
+      formDirective.resetForm();
+      this.form.reset();
+    }else{
+      console.log('Input Required');
+    }
+   
     
   }
   fire(){

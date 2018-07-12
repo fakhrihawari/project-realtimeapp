@@ -50,7 +50,7 @@
   <div [hidden]="inputForm" class="message-box" >
   
     <mat-card>
-      <form [formGroup]="form" (ngSubmit)="onSubmit(form)" class="form-full">
+      <form [formGroup]="form" #formDirective="ngForm" (ngSubmit)="onSubmit(form, formDirective)" class="form-full">
         <mat-form-field class="full-width">
           <mat-select formControlName="incident" placeholder="Type Incident" [(value)]="incident_id" >
             <mat-option *ngFor="let incident of type_incident" [value]="incident">
@@ -73,7 +73,7 @@
           <button mat-raised-button color="primary" type="submit" class="btn btn-primary">
             <mat-icon>add</mat-icon>
           </button>
-          <button mat-raised-button color="primary" type="submit" class="btn btn-primary" (click)="closeForm()">Close</button>
+          <button mat-raised-button color="primary" type="button" class="btn btn-primary" (click)="closeForm()">Close</button>
         </mat-card-actions>
 
         <!-- <button mat-raised-button color="primary" type="button" class="btn btn-primary" (click)="fire()">

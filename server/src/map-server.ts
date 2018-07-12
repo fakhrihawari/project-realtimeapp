@@ -85,7 +85,7 @@ export class MapServer {
                 this.dbStore(map, 'maps');
                  //get  mongo DB
                 this.getDbStore('maps');
-                this.io.emit('mongo', this.storeMongo);
+                // this.io.emit('mongo', this.storeMongo);
                 
                 //emit mongoDB
                 // this.io.emit('mongo', this.storeMongo);

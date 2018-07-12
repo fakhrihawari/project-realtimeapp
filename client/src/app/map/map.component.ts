@@ -33,9 +33,12 @@ export class MapComponent implements OnInit, AfterViewInit {
   message = 'Hello World!';
   incident_id ='none';
   coor;
+  // filter
   type_incident=["Fire","Flood","Gletser","Hazard","Not Sure"]
  inputForm=true;
  addPointButton=false;
+ filter=[];
+  filterCap = ['in', "incident_id"];
   //data
   source: any;
   markers: any;
@@ -391,7 +394,7 @@ export class MapComponent implements OnInit, AfterViewInit {
           'text-size': 14,
           'text-transform': 'uppercase',
           'icon-image': 'rocket-15',
-          'text-offset': [0, 3.5]
+          'text-offset': [0, 2.0]
         },
         paint: {
           'text-color': '#2491eb',
@@ -558,6 +561,9 @@ export class MapComponent implements OnInit, AfterViewInit {
    
     
   }
+
+  //########### FIlLTER-START
+  // Button Filter
   fire(){
     this.map.setFilter('firebase', ['==', "incident_id", "Fire"]);
     // console.log(document.getElementsByClassName("marker-fire").length);
@@ -601,6 +607,46 @@ export class MapComponent implements OnInit, AfterViewInit {
     } 
   }
 
+  // TO Filter
+  generalFilter(filtermarker:string[]){
+    console.log("GF",filtermarker);
+    let notElements = document.querySelectorAll('div[class^="marker-"]') as HTMLCollectionOf<HTMLElement>;
+    let notlengthClassName = notElements.length;
+    // console.log(notlengthClassName);
+    if(filtermarker.length>0){
+      for (let i = 0; i < notlengthClassName; i++) {
+        notElements[i].style.display = 'none';
+      }
+    }else{
+      for (let i = 0; i < notlengthClassName; i++) {
+        notElements[i].style.display = 'block';
+      }
+    }
+
+    for(let i =0;i<filtermarker.length;i++){
+
+      let x = document.getElementsByClassName('marker-'+filtermarker[i]) as HTMLCollectionOf<HTMLElement>;
+      for (let i = 0; i < x.length; i++) {
+        x[i].style.display = 'block';
+      } 
+    }
+
+  }
+  // TO Filter
+  generalSetFilter(array:string[]){
+
+    if(array.length>2){
+      this.map.setFilter('firebase', array);
+    }else{
+      this.map.setFilter('firebase', ['in', "incident_id", "Fire", "Flood", "Gletser", "Hazard", "Not Sure"]);
+
+    }
+
+
+  }
+  //########## FILLTER-END
+
+  // #####OPEN-CLOSE ADD FORM########
   openFormMap(){
     this.inputForm = false;
     this.addPointButton = true;
@@ -609,6 +655,31 @@ export class MapComponent implements OnInit, AfterViewInit {
   closeForm(){
     this.inputForm = true;
     this.addPointButton = false;
+  }
+
+   // #####OPEN-CLOSE ADD FORM -  END########
+
+  onCheckChange(e,item:string){
+    // let a=[];
+
+    console.log("CHECKBOX", e);
+    if (e.checked){
+      this.filter.push(item.toLowerCase());
+      this.filterCap.push(item);
+      console.log(this.filter);
+    }else{
+      console.log(item);
+      let x = this.filter.indexOf(item.toLocaleLowerCase())
+      let y = this.filter.indexOf(item);
+      this.filter.splice(x,1);
+      this.filterCap.splice(y,1);
+      console.log(this.filter);
+    }
+
+    this.generalFilter(this.filter);   
+    this.generalSetFilter(this.filterCap)
+    
+
   }
 
   

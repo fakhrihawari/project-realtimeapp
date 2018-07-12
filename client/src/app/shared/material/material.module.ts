@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import {
   MatButtonModule,
   MatCardModule,
+  MatCheckboxModule,
   MatDialog,
   MatDialogModule,
   MatIconModule,
@@ -13,7 +14,8 @@ import {
   MatToolbarModule,
   MatGridListModule,
   MatGridList,
-  MatSelectModule
+  MatSelectModule,
+  MatRadioModule
 } from '@angular/material';
 
 @NgModule({
@@ -21,11 +23,13 @@ import {
     CommonModule,
     MatButtonModule,
     MatCardModule,
+    MatCheckboxModule,
     MatDialogModule,
     MatIconModule,
     MatFormFieldModule,
     MatInputModule,
     MatListModule,
+    MatRadioModule,
     MatSidenavModule,
     MatToolbarModule,
     MatGridListModule,
@@ -35,11 +39,13 @@ import {
   exports: [
     MatButtonModule,
     MatCardModule,
+    MatCheckboxModule,
     MatDialogModule,
     MatIconModule,
     MatFormFieldModule,
     MatInputModule,
     MatListModule,
+    MatRadioModule,
     MatSidenavModule,
     MatToolbarModule,
     MatGridListModule,

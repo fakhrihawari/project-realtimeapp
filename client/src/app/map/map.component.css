@@ -111,3 +111,30 @@
     right: 30px;
 
 }
+
+.filter{
+    display: flex;
+    flex-direction: column;
+     position: absolute;
+    top:450px;
+    right: 30px;
+    /* max-width: 100px;
+    width: 100px; */
+}
+
+.filter button{
+    max-width: 100px;
+
+}
+
+.filterCheck{
+    display: flex;
+    flex-direction: column;
+     position: absolute;
+    top:84px;
+    right: 70px;
+}
+
+.filterCheck.mat-card{
+    padding: 10px;
+}

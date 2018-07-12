@@ -97,6 +97,26 @@
       <mat-icon>add</mat-icon>
     </button>
   </div>
+
+  <!-- <div class="filter">
+    <button mat-raised-button color="primary" type="button" class="btn btn-primary" (click)="fire()">
+              Fire
+    </button>
+    <button mat-raised-button color="primary" type="button" class="btn btn-primary" (click)="flood()">
+              Flood
+    </button>
+    <button mat-raised-button color="primary" type="button" class="btn btn-primary" (click)="all()">
+              All
+    </button>   
+
+  </div> -->
+
+  <div class="filterCheck mat-card">
+    <mat-checkbox *ngFor="let item of type_incident" color="primary" [value]="item" (change)="onCheckChange($event,item)">
+      {{item}}
+    </mat-checkbox>
+    
+  </div>
   
   
 

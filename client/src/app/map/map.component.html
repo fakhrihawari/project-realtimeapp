@@ -11,7 +11,7 @@
   
   <mat-card class="map-container">
 
-    <div class="map" id="map" style='height: 500px;'></div>
+    <div class="map" id="map" style='height: 600px;'></div>
   </mat-card>
   
   
@@ -47,20 +47,58 @@
       
   </div> -->
 
-  <div class="message-box">
+  <div [hidden]="inputForm" class="message-box" >
   
     <mat-card>
-      <mat-form-field class="example-full-width">
-        <input matInput placeholder="your message..." [(ngModel)]="message">
+      <form [formGroup]="form" (ngSubmit)="onSubmit(form)" class="form-full">
+        <mat-form-field class="full-width">
+          <mat-select formControlName="incident" placeholder="Type Incident" [(value)]="incident_id" >
+            <mat-option *ngFor="let incident of type_incident" [value]="incident">
+              {{incident}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
         
-      </mat-form-field>
-      <mat-form-field class="example-full-width">
-        <input matInput [(ngModel)]="coor">
-      </mat-form-field>
+        <mat-form-field class="full-width">
+          <input matInput formControlName="message" placeholder="your message..." [(ngModel)]="message">
+        </mat-form-field>
+        
+        <mat-form-field class="full-width">
+          <input matInput formControlName="coordinate"[(ngModel)]="coor">
+        </mat-form-field>
+
+        
+          
+        <mat-card-actions align="end">
+          <button mat-raised-button color="primary" type="submit" class="btn btn-primary">
+            <mat-icon>add</mat-icon>
+          </button>
+          <button mat-raised-button color="primary" type="submit" class="btn btn-primary" (click)="closeForm()">Close</button>
+        </mat-card-actions>
+
+        <!-- <button mat-raised-button color="primary" type="button" class="btn btn-primary" (click)="fire()">
+          Fire
+        </button>
+        <button mat-raised-button color="primary" type="button" class="btn btn-primary" (click)="flood()">
+          Flood
+        </button>
+        <button mat-raised-button color="primary" type="button" class="btn btn-primary" (click)="all()">
+          All
+        </button> -->
+
+      </form>
+      
     </mat-card>
 
    
   </div>
+  <div class="addPoint" [hidden]="addPointButton">
+    <button mat-mini-fab color="primary" (click)="openFormMap()">
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+  
+  
 
   <div class="charts">
     

@@ -18,6 +18,7 @@
 }
 .map-container{
     position: relative;
+    padding: 10px;
 }
 .show{
     max-width: 200px;
@@ -46,13 +47,17 @@
     position: fixed;
     bottom: 10px;
     right: 40%; */
+
+    position: absolute;
+    top:370px;
+    right: 30px;
     
     
     
 }
 
 .message-box .mat-card{
-    width: 400px;
+    width: 250px;
 }
 
 .charts{
@@ -81,9 +86,28 @@
 
 .marker-robbery {
   background-image: url(../../assets/image/robbery.png);
+   /* background-image: url(../../assets/image/Asset-195mdpi.png); */
   background-size: cover;
   width: 50px;
   height: 50px;
   border-radius: 50%;
   cursor: pointer;
+}
+
+.form-full{
+    width: 100%;
+}
+.full-width{
+    width: 100%;
+}
+.message-box .mat-card-actions{
+    margin-right: 0;
+    margin-bottom: 0;
+}
+
+.addPoint{
+     position: absolute;
+    top:600px;
+    right: 30px;
+
 }

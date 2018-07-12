@@ -9,6 +9,9 @@ import { Action } from './shared/model/action';
 import { Observable } from 'rxjs/Observable';
 import { from } from 'rxjs/observable/from';
 import * as Highcharts from 'highcharts';  
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { Validators, ValidatorFn, NgForm, FormGroupDirective } from '@angular/forms';
+
 
 
 @Component({
@@ -28,8 +31,11 @@ export class MapComponent implements OnInit, AfterViewInit {
   lat = 37.75;
   lng = -122.41;
   message = 'Hello World!';
+  incident_id ='none';
   coor;
-
+  type_incident=["Fire","Flood","Gletser","Hazard","Not Sure"]
+ inputForm=true;
+ addPointButton=false;
   //data
   source: any;
   markers: any;
@@ -43,6 +49,9 @@ export class MapComponent implements OnInit, AfterViewInit {
   oneToOneFlag = true
   spline_data = [1, 2, 0, 4, 6, 2, 3, 1];
   spline_data_length = this.spline_data.length;
+
+  // Form
+  form:FormGroup;
 
   optInput = {
     title: {
@@ -124,7 +133,9 @@ export class MapComponent implements OnInit, AfterViewInit {
     }]
   };
 
-  constructor(private mapService: MapService, private socketService: SocketService, iterasi: IterableDiffers) {
+  constructor(private mapService: MapService, 
+              private socketService: SocketService, 
+              private fb: FormBuilder) {
     // this.differ = iterasi.find([]).create(null);
    }
 
@@ -135,6 +146,13 @@ export class MapComponent implements OnInit, AfterViewInit {
     
     console.log(this.maps);
     // console.log("spline",this.spline_data);
+
+    //FORM
+    this.form = this.fb.group({
+      message:'',
+      incident:'',
+      coordinate:[]
+    })
   
         
    
@@ -194,8 +212,10 @@ export class MapComponent implements OnInit, AfterViewInit {
     
     this.socketService.getMongoMap().subscribe((mongomap) => {
       console.log("MongoMap", mongomap);
+
       //addmarkers
       this.addMarkers(mongomap);
+
       if (this.maps.length < 1) {
         console.log("cek array maps", this.maps.length)
           this.maps = mongomap;
@@ -205,12 +225,14 @@ export class MapComponent implements OnInit, AfterViewInit {
         }
       // this.maps = mongomap;
       console.log(this.maps);
-      // add Layer
+
+      // add Layer ##ADDing Layer##
       this.map.on('load', () => {
         console.log('POPULATe to add layer')
         let data = new FeatureCollection(mongomap)
         this.source.setData(data)
-      })
+       })
+      // ##ADDing Layer-END##
     })
 
     // ######IGNORE##########
@@ -315,11 +337,11 @@ export class MapComponent implements OnInit, AfterViewInit {
       const coordinates = [event.lngLat.lng, event.lngLat.lat]
       this.coor = coordinates;
       console.log(coordinates,"CEK KOORDINAT");
-      const newMarker = new MapModel(coordinates, { message: this.message })
-      this.map.flyTo({ center: coordinates})
-      console.log("NEW",newMarker);
-      this.socketService.send(newMarker); 
-      // this.socketService.wtv();  
+      // const newMarker = new MapModel(coordinates, { message: this.message, incident_id: this.incident_id })
+      // this.map.flyTo({ center: coordinates})
+      // console.log("NEW",newMarker);
+      // this.socketService.send(newMarker); 
+      
      
       
              
@@ -349,31 +371,36 @@ export class MapComponent implements OnInit, AfterViewInit {
           this.source.setData(data)
         })
 
+
+      // ##IGNORE##
       // this.socketService.getMongoMap()
       //     .subscribe((mongoDB)=>{
       //       console.log('ADD layer')
       //       let data = new FeatureCollection(mongoDB)
       //       this.source.setData(data)
       //     })
+      // // ##IGNORE-END##
       
-      
+      // add Layer ##ADDing Layer##
       this.map.addLayer({
         id: 'firebase',
         source: 'firebase',
         type: 'symbol',
         layout: {
           'text-field': '{message}',
-          'text-size': 24,
+          'text-size': 14,
           'text-transform': 'uppercase',
           'icon-image': 'rocket-15',
-          'text-offset': [0, 1.5]
+          'text-offset': [0, 3.5]
         },
         paint: {
-          'text-color': '#f16624',
+          'text-color': '#2491eb',
           'text-halo-color': '#fff',
           'text-halo-width': 2
         }
       })
+      // // add Layer ##ADDing Layer##
+      
 
 
     })
@@ -389,10 +416,20 @@ export class MapComponent implements OnInit, AfterViewInit {
 
   addMarkers(data: MapModel[]){
     data.forEach(datum=>{
-      console.log("MARKER");
+      console.log("MARKER", datum);
       let tmp = document.createElement('div');
-      // tmp.className = 'marker'; 
-      tmp.className = 'marker-robbery';
+      // tmp.className = 'marker';
+      if (datum.properties.incident_id ==="Flood"){
+        tmp.className = 'marker-flood';
+      } else if (datum.properties.incident_id === "Fire") {
+        tmp.className = 'marker-fire';
+      } else if (datum.properties.incident_id === "Gletser"){
+        tmp.className = 'marker-gletser';
+      } else if (datum.properties.incident_id === "Hazard"){
+        tmp.className = 'marker-hazard';
+      } else {
+        tmp.className = 'marker-question-mark';
+      }
 
       let popup = new mapboxgl.Popup({offset:25})
                               .setText(datum.properties.message)
@@ -407,59 +444,7 @@ export class MapComponent implements OnInit, AfterViewInit {
    
   }
 
-  // addLayer(data){
-
-  //   data = new FeatureCollection(data);
-
-  //   // this.map.on('click', () => {
-
-
-
-
-  //   //   // this.map.addSource('firebase', {
-  //   //   //   type: 'geojson',
-  //   //   //   data: {
-  //   //   //     type: 'FeatureCollection',
-  //   //   //     features: []
-  //   //   //   }
-  //   //   // });
-
-  //   //   // this.source = this.map.getSource('firebase')
-
-  //   //   this.socketService.getMap()
-  //   //     .subscribe((z) => {
-  //   //       console.log('ADD layer')
-  //   //       let data = new FeatureCollection(z)
-  //   //       this.source.setData(data)
-  //   //     })
-
-  //   //   this.map.addLayer({
-  //   //     id: 'firebase',
-  //   //     source: 'firebase',
-  //   //     type: 'symbol',
-  //   //     layout: {
-  //   //       'text-field': '{message}',
-  //   //       'text-size': 24,
-  //   //       'text-transform': 'uppercase',
-  //   //       'icon-image': 'rocket-15',
-  //   //       'text-offset': [0, 1.5]
-  //   //     },
-  //   //     paint: {
-  //   //       'text-color': '#f16624',
-  //   //       'text-halo-color': '#fff',
-  //   //       'text-halo-width': 2
-  //   //     }
-  //   //   })
-
-
-  //   // })
-
-  //   this.source.setData(data)
-
-  // }
-
-
-  
+  //trying Highcharts 
   chartsData(){
     
     console.log("before",this.optInput4)
@@ -552,6 +537,73 @@ export class MapComponent implements OnInit, AfterViewInit {
   chartClick(e){
     alert(e.point.series);
     console.log("Nama: "+e.point.series.name+" ; "+"Nila: "+e.point.y);
+  }
+
+  // FORM
+  onSubmit(){
+    console.log(this.form.value);
+
+    let coordinates = this.form.value.coordinate;
+    let m = this.form.value.message;
+    let i = this.form.value.incident;
+    const newMarker = new MapModel(coordinates, { message: m, incident_id: i });
+    this.map.flyTo({ center: coordinates });
+    console.log("NEW", newMarker);
+    this.socketService.send(newMarker); 
+    this.form.reset();
+    
+  }
+  fire(){
+    this.map.setFilter('firebase', ['==', "incident_id", "Fire"]);
+    // console.log(document.getElementsByClassName("marker-fire").length);
+    //  document.getElementsByClassName("marker-fire")[0].style.display = 'none';
+   
+    // x[0].style.display = "none";
+    let notElements = document.querySelectorAll('div[class^="marker-"]') as HTMLCollectionOf<HTMLElement>
+    let floorElements = document.getElementsByClassName("marker-fire") as HTMLCollectionOf<HTMLElement>;
+    let lengthClassName = floorElements.length;
+    let notlengthClassName = notElements.length;
+    for (let i = 0; i < notlengthClassName; i++) {
+      notElements[i].style.display = 'none';
+    }
+    
+    for(let i=0;i<lengthClassName;i++){
+      floorElements[i].style.display = 'block';
+    } 
+    
+  }
+  flood() {
+    this.map.setFilter('firebase', ['==', "incident_id", "Flood"]);
+    let notElements = document.querySelectorAll('div[class^="marker-"]') as HTMLCollectionOf<HTMLElement>;//document.getElementsByClassName("marker-fire") as HTMLCollectionOf<HTMLElement>;
+    let floodElements = document.getElementsByClassName("marker-flood") as HTMLCollectionOf<HTMLElement>;
+    let notlengthClassName = notElements.length;
+    let floodlengthClassName = floodElements.length;
+    for (let i = 0; i < notlengthClassName; i++) {
+      notElements[i].style.display = 'none';
+    }
+    for (let i = 0; i < floodlengthClassName; i++) {
+      floodElements[i].style.display = 'block';
+    }
+  }
+  all(){
+    this.map.setFilter('firebase', ['in', "incident_id", "Fire", "Flood", "Gletser", "Hazard", "Not Sure"]);  
+    // let allMarker = document.getElementsByClassName("marker-flood") as HTMLCollectionOf<HTMLElement>;
+    let allMarker = document.querySelectorAll('div[class^="marker-"]') as HTMLCollectionOf<HTMLElement>;
+    let lengthClassName = allMarker.length;
+    // console.log(lengthClassName);
+    for (let i = 0; i < lengthClassName; i++) {
+      allMarker[i].style.display = 'block';
+    } 
+  }
+
+  openFormMap(){
+    this.inputForm = false;
+    this.addPointButton = true;
+  }
+
+  closeForm(){
+    this.inputForm = true;
+    this.addPointButton = false;
   }
 
   

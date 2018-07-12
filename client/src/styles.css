@@ -9,10 +9,122 @@
   cursor: pointer;
 }
 
+
+.marker-blast { 
+  background-image: url(./assets/image/blast.png);
+  background-size: cover;
+  width: 50px;
+  height: 70px; 
+  cursor: pointer;
+}
+
+.marker-building { 
+  background-image: url(./assets/image/building.png);
+  background-size: cover;
+  width: 50px;
+  height: 70px; 
+  cursor: pointer;
+}
+.marker-bottle { 
+  background-image: url(./assets/image/bottle.png);
+  background-size: cover;
+  width: 50px;
+  height: 70px; 
+  cursor: pointer;
+}
+
+.marker-crash { 
+  background-image: url(./assets/image/crash.png);
+  background-size: cover;
+  width: 50px;
+  height: 70px; 
+  cursor: pointer;
+}
+
+.marker-critical { 
+  background-image: url(./assets/image/critical.png);
+  background-size: cover;
+  width: 50px;
+  height: 70px; 
+  cursor: pointer;
+}
+
+.marker-fire { 
+  background-image: url(./assets/image/fire.png);
+  background-size: cover;
+  width: 50px;
+  height: 70px; 
+  cursor: pointer;
+}
+
+.marker-flood { 
+  background-image: url(./assets/image/flood.png);
+  background-size: cover;
+  width: 50px;
+  height: 70px; 
+  cursor: pointer;
+}
+
+.marker-gletser { 
+  background-image: url(./assets/image/gletser.png);
+  background-size: cover;
+  width: 50px;
+  height: 70px; 
+  cursor: pointer;
+}
+
+.marker-ground-fall { 
+  background-image: url(./assets/image/ground-fall.png);
+  background-size: cover;
+  width: 50px;
+  height: 70px; 
+  cursor: pointer;
+}
+
+.marker-hazard { 
+  background-image: url(./assets/image/hazard.png);
+  background-size: cover;
+  width: 50px;
+  height: 70px; 
+  cursor: pointer;
+}
+
+.marker-heart-rate { 
+  background-image: url(./assets/image/heart-rate.png);
+  background-size: cover;
+  width: 50px;
+  height: 70px; 
+  cursor: pointer;
+}
+
+.marker-insect { 
+  background-image: url(./assets/image/insect.png);
+  background-size: cover;
+  width: 50px;
+  height: 70px; 
+  cursor: pointer;
+}
+
+.marker-oil { 
+  background-image: url(./assets/image/oil.png);
+  background-size: cover;
+  width: 50px;
+  height: 70px; 
+  cursor: pointer;
+}
+
+.marker-question-mark { 
+  background-image: url(./assets/image/question-mark.png);
+  background-size: cover;
+  width: 50px;
+  height: 70px; 
+  cursor: pointer;
+}
+
 .marker-robbery {
   background-image: url(./assets/image/robbery.png);
   background-size: cover;
-  width: 50px;
+  width: 50px;  
   height: 50px;
   border-radius: 50%;
   cursor: pointer;

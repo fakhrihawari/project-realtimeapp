@@ -5,13 +5,18 @@ import { Observer } from 'rxjs/Observer';
 import { Event } from '../model/event';
 import {MapModel} from '../../map-model'
 
+// coba
+import { MongoClient, Db, InsertOneWriteOpResult, MongoError } from 'mongodb';
 import * as socketIo from 'socket.io-client';
 const SERVER_URL = 'http://localhost:8282';
 
 
 @Injectable()
 export class SocketService {
-
+  //coba
+  public db: any = null;
+  private connections = "mongodb://localhost:27017";
+  
   private socket;
 
   public initSocket():void{
@@ -62,5 +67,20 @@ export class SocketService {
 
 
   // constructor() { }
+  
+  //coba
+  // public monggoDB() {
+  //   MongoClient.connect(this.connections, (err: MongoError, database) => {
+  //     if (err) {
+  //       console.log(err);
+  //     } else {
+  //       this.db = database.db('map');
+  //       console.log('success');
+  //     }
+  //   })
+  //   return this.db.collection('maps').find().toArray();
+
+
+  // }
 
 }

@@ -47,6 +47,26 @@
       
   </div> -->
 
+  <!-- LIST-INCIDENT -->
+  <div class="list-incident">
+    <mat-card>
+      <mat-card-content>
+        <mat-nav-list>
+          <mat-list-item *ngFor="let item of maps" (click)="flyTo(item)">
+            <!-- <img src="" mat-list-icon> -->
+            <img matListAvatar src="../../assets/image/robbery.png" alt="...">
+            <p mat-line>{{item.properties.incident_id}}</p>
+          </mat-list-item>
+          
+        </mat-nav-list>
+      </mat-card-content>
+      
+    </mat-card>   
+    
+  </div>
+  <!-- LIST-INCIDENT-end -->
+
+  <!-- Form-ADD-location -->
   <div [hidden]="inputForm" class="message-box" >
   
     <mat-card>
@@ -74,17 +94,7 @@
             <mat-icon>add</mat-icon>
           </button>
           <button mat-raised-button color="primary" type="button" class="btn btn-primary" (click)="closeForm()">Close</button>
-        </mat-card-actions>
-
-        <!-- <button mat-raised-button color="primary" type="button" class="btn btn-primary" (click)="fire()">
-          Fire
-        </button>
-        <button mat-raised-button color="primary" type="button" class="btn btn-primary" (click)="flood()">
-          Flood
-        </button>
-        <button mat-raised-button color="primary" type="button" class="btn btn-primary" (click)="all()">
-          All
-        </button> -->
+        </mat-card-actions>        
 
       </form>
       
@@ -92,6 +102,8 @@
 
    
   </div>
+
+  <!-- ADD Button -->
   <div class="addPoint" [hidden]="addPointButton">
     <button mat-mini-fab color="primary" (click)="openFormMap()">
       <mat-icon>add</mat-icon>

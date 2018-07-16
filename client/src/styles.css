@@ -11,7 +11,8 @@
 
 
 .marker-blast { 
-  background-image: url(./assets/image/blast.png);
+  /* background-image: url(./assets/image/blast.png); */
+  background-image: url(./assets/image/Asset-258mdpi.png);
   background-size: cover;
   width: 30px;
   height: 43px; 
@@ -19,7 +20,8 @@
 }
 
 .marker-building { 
-  background-image: url(./assets/image/building.png);
+  /* background-image: url(./assets/image/building.png); */
+  background-image: url(./assets/image/Asset-252mdpi.png);
   background-size: cover;
   width: 30px;
   height: 43px; 
@@ -34,7 +36,8 @@
 }
 
 .marker-crash { 
-  background-image: url(./assets/image/crash.png);
+  /* background-image: url(./assets/image/crash.png); */
+  background-image: url(./assets/image/Asset-249mdpi.png);
   background-size: cover;
   width: 30px;
   height: 43px; 
@@ -42,7 +45,17 @@
 }
 
 .marker-critical { 
-  background-image: url(./assets/image/critical.png);
+  /* background-image: url(./assets/image/critical.png); */
+  background-image: url(./assets/image/Asset-279mdpi.png);
+  background-size: cover;
+  width: 30px;
+  height: 43px; 
+  cursor: pointer;
+}
+
+.marker-drought { 
+  
+  background-image: url(./assets/image/Asset-261mdpi.png);
   background-size: cover;
   width: 30px;
   height: 43px; 
@@ -50,7 +63,8 @@
 }
 
 .marker-fire { 
-  background-image: url(./assets/image/fire.png);
+  /* background-image: url(./assets/image/fire.png); */
+  background-image: url(./assets/image/Asset-255mdpi.png);
   background-size: cover;
   width: 30px;
   height: 43px; 
@@ -58,7 +72,8 @@
 }
 
 .marker-flood { 
-  background-image: url(./assets/image/flood.png);
+  /* background-image: url(./assets/image/flood.png); */
+   background-image: url(./assets/image/Asset-276mdpi.png);
   background-size: cover;
   width: 30px;
   height: 43px; 
@@ -66,15 +81,17 @@
 }
 
 .marker-gletser { 
-  background-image: url(./assets/image/gletser.png);
+  /* background-image: url(./assets/image/gletser.png); */
+  background-image: url(./assets/image/Asset-264mdpi.png);
   background-size: cover;
   width: 30px;
   height: 43px; 
   cursor: pointer;
 }
 
-.marker-ground-fall { 
-  background-image: url(./assets/image/ground-fall.png);
+.marker-landslide { 
+  /* background-image: url(./assets/image/ground-fall.png); */
+  background-image: url(./assets/image/Asset-273mdpi.png);
   background-size: cover;
   width: 30px;
   height: 43px; 
@@ -82,7 +99,8 @@
 }
 
 .marker-hazard { 
-  background-image: url(./assets/image/hazard.png);
+  /* background-image: url(./assets/image/hazard.png); */
+  background-image: url(./assets/image/Asset-246mdpi.png);
   background-size: cover;
   width: 30px;
   height: 43px; 
@@ -90,7 +108,8 @@
 }
 
 .marker-heart-rate { 
-  background-image: url(./assets/image/heart-rate.png);
+  /* background-image: url(./assets/image/heart-rate.png); */
+  background-image: url(./assets/image/Asset-279mdpi.png);
   background-size: cover;
   width: 30px;
   height: 430px; 

@@ -138,3 +138,30 @@
 .filterCheck.mat-card{
     padding: 10px;
 }
+
+.list-incident{
+    /* display: flex; */
+    position: absolute;
+    top:84px;
+    left: 30px;
+    
+}
+
+.list-incident .mat-card{
+ width: 300px;
+ padding: 10px 0 20px 0;
+ 
+}
+
+.list-incident .mat-card .mat-card-content {
+    max-height: 300px; 
+    overflow-y: auto;
+    -ms-overflow-style: none;  
+    overflow: -moz-scrollbars-none; 
+
+  }
+
+  .list-incident .mat-card .mat-card-content::-webkit-scrollbar{
+      display: none;
+  }
+

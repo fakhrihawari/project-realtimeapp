@@ -11,6 +11,7 @@ import { from } from 'rxjs/observable/from';
 import * as Highcharts from 'highcharts';  
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Validators, ValidatorFn, NgForm, FormGroupDirective } from '@angular/forms';
+import { literal } from '@angular/compiler/src/output/output_ast';
 
 
 
@@ -34,11 +35,14 @@ export class MapComponent implements OnInit, AfterViewInit {
   incident_id ='none';
   coor;
   // filter
-  type_incident=["Fire","Flood","Gletser","Hazard","Not Sure"]
+  // type_incident=["Fire","Flood","Gletser","Hazard","Not Sure"]
+  type_incident = ["crash","drought","fire", "flood", "gletser", "hazard", "landslide"]
+  type_incidentLow = ["fire", "flood", "gletser", "hazard", "question"]
  inputForm=true;
  addPointButton=false;
  filter=[];
-  filterCap = ['in', "incident_id"];
+  filterCap = ["in", "incident_id"];
+  
   //data
   source: any;
   markers: any;
@@ -147,7 +151,7 @@ export class MapComponent implements OnInit, AfterViewInit {
     this.initializeMap();
     this.initIoConnection();
     
-    console.log(this.maps);
+    console.log("MAPS",this.maps);
     // console.log("spline",this.spline_data);
 
     //FORM
@@ -227,7 +231,7 @@ export class MapComponent implements OnInit, AfterViewInit {
           
         }
       // this.maps = mongomap;
-      console.log(this.maps);
+      console.log("MAPS",this.maps);
 
       // add Layer ##ADDing Layer##
       this.map.on('load', () => {
@@ -308,8 +312,8 @@ export class MapComponent implements OnInit, AfterViewInit {
     /// locate the user
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(position => {
-        this.lat = position.coords.latitude;
-        this.lng = position.coords.longitude;
+        this.lat = 34.543896//position.coords.latitude;
+        this.lng = 69.160652//position.coords.longitude;
         this.map.flyTo({
           center: [this.lng, this.lat]
         })
@@ -324,7 +328,7 @@ export class MapComponent implements OnInit, AfterViewInit {
     this.map = new mapboxgl.Map({
       container: 'map',
       style: this.style,
-      zoom: 13,
+      zoom: 5.5,//13,
       center: [this.lng, this.lat]
     });
 
@@ -385,24 +389,71 @@ export class MapComponent implements OnInit, AfterViewInit {
       // // ##IGNORE-END##
       
       // add Layer ##ADDing Layer##
+      // this.map.addLayer({
+      //   id: 'firebase-shadow-1',
+      //   source: 'firebase',
+      //   // ##### circle transparant
+
+      //   // ######circle
+      //   type: "circle",
+      //   paint: {
+      //     "circle-color": "#11b4da",
+      //     "circle-radius": 40,
+      //     // "circle-stroke-width": 0.5,
+      //     // "circle-stroke-color": "#fff",
+      //     "circle-opacity": 0.5
+      //   }
+
+      // })
+
+      // this.map.addLayer({
+      //   id: 'firebase-shadow-2',
+      //   source: 'firebase',
+      //   // ##### circle transparant
+
+      //   // ######circle
+      //   type: "circle",
+      //   paint: {
+      //     "circle-color": "#11b4da",
+      //     "circle-radius": 20,
+      //     // "circle-stroke-width": 0.5,
+      //     // "circle-stroke-color": "#fff",
+      //     "circle-opacity": 0.8
+      //   }
+
+      // })
+
       this.map.addLayer({
         id: 'firebase',
         source: 'firebase',
-        type: 'symbol',
-        layout: {
-          'text-field': '{message}',
-          'text-size': 14,
-          'text-transform': 'uppercase',
-          'icon-image': 'rocket-15',
-          'text-offset': [0, 2.0]
-        },
+        // ##### circle transparant
+       
+        // ######circle
+        type: "circle",
         paint: {
-          'text-color': '#2491eb',
-          'text-halo-color': '#fff',
-          'text-halo-width': 2
+          "circle-color":  "#fff",
+          "circle-radius": 4,
+          "circle-stroke-width": 0.1,
+          "circle-stroke-color": "#11b4da",
+          
         }
+        // ######SYmbol
+        // type: 'symbol',
+        // layout: {
+        //   'text-field': '{message}',
+        //   'text-size': 14,
+        //   'text-transform': 'uppercase',
+        //   'icon-image': 'rocket-15',
+        //   'text-offset': [0, 2.0]
+        // },
+        // paint: {
+        //   'text-color': '#2491eb',
+        //   'text-halo-color': '#fff',
+        //   'text-halo-width': 2
+        // }
       })
       // // add Layer ##ADDing Layer##
+      
       
 
 
@@ -413,7 +464,8 @@ export class MapComponent implements OnInit, AfterViewInit {
 
   flyTo(data: MapModel) {
     this.map.flyTo({
-      center: data.geometry.coordinates
+      center: data.geometry.coordinates,
+      zoom:20
     })
   }
 
@@ -421,26 +473,36 @@ export class MapComponent implements OnInit, AfterViewInit {
     data.forEach(datum=>{
       console.log("MARKER", datum);
       let tmp = document.createElement('div');
-      // tmp.className = 'marker';
-      if (datum.properties.incident_id ==="Flood"){
+      
+      if (datum.properties.incident_id === "flood") {
         tmp.className = 'marker-flood';
-      } else if (datum.properties.incident_id === "Fire") {
+      } else if (datum.properties.incident_id === "fire") {
         tmp.className = 'marker-fire';
-      } else if (datum.properties.incident_id === "Gletser"){
+      } else if (datum.properties.incident_id === "gletser") {
         tmp.className = 'marker-gletser';
-      } else if (datum.properties.incident_id === "Hazard"){
+      } else if (datum.properties.incident_id === "hazard") {
         tmp.className = 'marker-hazard';
-      } else {
+      } else if (datum.properties.incident_id === "crash"){
+        tmp.className = 'marker-crash';
+      } else if (datum.properties.incident_id === "landslide"){
+        tmp.className = 'marker-landslide';
+      } else if (datum.properties.incident_id === "drought") {
+        tmp.className = 'marker-drought';
+      }      
+      else {
         tmp.className = 'marker-question-mark';
       }
+
 
       let popup = new mapboxgl.Popup({offset:25})
                               .setText(datum.properties.message)
       
-      new mapboxgl.Marker(tmp)
+      new mapboxgl.Marker(tmp, {offset:[0,-6]})
         .setLngLat(datum.geometry.coordinates)
-        .setPopup(popup)
+        .setPopup(popup)        
         .addTo(this.map);
+
+      
         
     })
 
@@ -564,48 +626,50 @@ export class MapComponent implements OnInit, AfterViewInit {
 
   //########### FIlLTER-START
   // Button Filter
-  fire(){
-    this.map.setFilter('firebase', ['==', "incident_id", "Fire"]);
-    // console.log(document.getElementsByClassName("marker-fire").length);
-    //  document.getElementsByClassName("marker-fire")[0].style.display = 'none';
+  // fire(){
+  //   this.map.setFilter('firebase', ['==', "incident_id", "Fire"]);
+  //   // console.log(document.getElementsByClassName("marker-fire").length);
+  //   //  document.getElementsByClassName("marker-fire")[0].style.display = 'none';
    
-    // x[0].style.display = "none";
-    let notElements = document.querySelectorAll('div[class^="marker-"]') as HTMLCollectionOf<HTMLElement>
-    let floorElements = document.getElementsByClassName("marker-fire") as HTMLCollectionOf<HTMLElement>;
-    let lengthClassName = floorElements.length;
-    let notlengthClassName = notElements.length;
-    for (let i = 0; i < notlengthClassName; i++) {
-      notElements[i].style.display = 'none';
-    }
+  //   // x[0].style.display = "none";
+  //   let notElements = document.querySelectorAll('div[class^="marker-"]') as HTMLCollectionOf<HTMLElement>
+  //   let floorElements = document.getElementsByClassName("marker-fire") as HTMLCollectionOf<HTMLElement>;
+  //   let lengthClassName = floorElements.length;
+  //   let notlengthClassName = notElements.length;
+  //   for (let i = 0; i < notlengthClassName; i++) {
+  //     notElements[i].style.display = 'none';
+  //   }
     
-    for(let i=0;i<lengthClassName;i++){
-      floorElements[i].style.display = 'block';
-    } 
+  //   for(let i=0;i<lengthClassName;i++){
+  //     floorElements[i].style.display = 'block';
+  //   } 
     
-  }
-  flood() {
-    this.map.setFilter('firebase', ['==', "incident_id", "Flood"]);
-    let notElements = document.querySelectorAll('div[class^="marker-"]') as HTMLCollectionOf<HTMLElement>;//document.getElementsByClassName("marker-fire") as HTMLCollectionOf<HTMLElement>;
-    let floodElements = document.getElementsByClassName("marker-flood") as HTMLCollectionOf<HTMLElement>;
-    let notlengthClassName = notElements.length;
-    let floodlengthClassName = floodElements.length;
-    for (let i = 0; i < notlengthClassName; i++) {
-      notElements[i].style.display = 'none';
-    }
-    for (let i = 0; i < floodlengthClassName; i++) {
-      floodElements[i].style.display = 'block';
-    }
-  }
-  all(){
-    this.map.setFilter('firebase', ['in', "incident_id", "Fire", "Flood", "Gletser", "Hazard", "Not Sure"]);  
-    // let allMarker = document.getElementsByClassName("marker-flood") as HTMLCollectionOf<HTMLElement>;
-    let allMarker = document.querySelectorAll('div[class^="marker-"]') as HTMLCollectionOf<HTMLElement>;
-    let lengthClassName = allMarker.length;
-    // console.log(lengthClassName);
-    for (let i = 0; i < lengthClassName; i++) {
-      allMarker[i].style.display = 'block';
-    } 
-  }
+  // }
+
+  // flood() {
+  //   this.map.setFilter('firebase', ['==', "incident_id", "Flood"]);
+  //   let notElements = document.querySelectorAll('div[class^="marker-"]') as HTMLCollectionOf<HTMLElement>;//document.getElementsByClassName("marker-fire") as HTMLCollectionOf<HTMLElement>;
+  //   let floodElements = document.getElementsByClassName("marker-flood") as HTMLCollectionOf<HTMLElement>;
+  //   let notlengthClassName = notElements.length;
+  //   let floodlengthClassName = floodElements.length;
+  //   for (let i = 0; i < notlengthClassName; i++) {
+  //     notElements[i].style.display = 'none';
+  //   }
+  //   for (let i = 0; i < floodlengthClassName; i++) {
+  //     floodElements[i].style.display = 'block';
+  //   }
+  // }
+
+  // all(){
+  //   this.map.setFilter('firebase', ['in', "incident_id", "Fire", "Flood", "Gletser", "Hazard", "Not Sure"]);  
+  //   // let allMarker = document.getElementsByClassName("marker-flood") as HTMLCollectionOf<HTMLElement>;
+  //   let allMarker = document.querySelectorAll('div[class^="marker-"]') as HTMLCollectionOf<HTMLElement>;
+  //   let lengthClassName = allMarker.length;
+  //   // console.log(lengthClassName);
+  //   for (let i = 0; i < lengthClassName; i++) {
+  //     allMarker[i].style.display = 'block';
+  //   } 
+  // }
 
   // TO Filter
   generalFilter(filtermarker:string[]){
@@ -633,12 +697,14 @@ export class MapComponent implements OnInit, AfterViewInit {
 
   }
   // TO Filter
-  generalSetFilter(array:string[]){
-
+  generalSetFilter(array){
+    let a = array//['in',"incident_id","drought", "fire"]
     if(array.length>2){
       this.map.setFilter('firebase', array);
+      // this.map.setFilter('firebase', a);
+      console.log("array",array);
     }else{
-      this.map.setFilter('firebase', ['in', "incident_id", "Fire", "Flood", "Gletser", "Hazard", "Not Sure"]);
+      this.map.setFilter('firebase', ['in', "incident_id","crash","drought","fire","flood","gletser","hazard","landslide"]);
 
     }
 
@@ -657,27 +723,26 @@ export class MapComponent implements OnInit, AfterViewInit {
     this.addPointButton = false;
   }
 
-   // #####OPEN-CLOSE ADD FORM -  END########
+ // #####OPEN-CLOSE ADD FORM -  END########
 
-  onCheckChange(e,item:string){
-    // let a=[];
-
-    console.log("CHECKBOX", e);
-    if (e.checked){
-      this.filter.push(item.toLowerCase());
+  onCheckChange(e,item){
+      
+    if (e.checked){     
+      this.filter.push(item);
       this.filterCap.push(item);
       console.log(this.filter);
     }else{
       console.log(item);
-      let x = this.filter.indexOf(item.toLocaleLowerCase())
-      let y = this.filter.indexOf(item);
+      let x = this.filter.indexOf(item)
+      let y = this.filterCap.indexOf(item);
+    
       this.filter.splice(x,1);
       this.filterCap.splice(y,1);
       console.log(this.filter);
     }
 
     this.generalFilter(this.filter);   
-    this.generalSetFilter(this.filterCap)
+    this.generalSetFilter(this.filterCap);
     
 
   }

@@ -49,7 +49,7 @@
     right: 40%; */
 
     position: absolute;
-    top:370px;
+    top:250px;
     right: 30px;
     
     
@@ -135,6 +135,21 @@
     right: 70px;
 }
 
+.filterProvince{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    max-width:400px; 
+    /* justify-content: space-evenly; */
+    
+    position: absolute;
+    top:84px;
+    right: 200px;
+}
+.filterProvince .mat-checkbox{
+    padding: 0 10px 0 10px;
+}
+
 .filterCheck.mat-card{
     padding: 10px;
 }
@@ -165,3 +180,11 @@
       display: none;
   }
 
+
+  .mat-option{
+        text-transform: capitalize;
+  } 
+
+  .mat-select{
+        text-transform: capitalize;
+  }

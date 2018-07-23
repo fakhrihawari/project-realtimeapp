@@ -71,6 +71,7 @@
   
     <mat-card>
       <form [formGroup]="form" #formDirective="ngForm" (ngSubmit)="onSubmit(form, formDirective)" class="form-full">
+        
         <mat-form-field class="full-width">
           <mat-select formControlName="incident" placeholder="Type Incident" [(value)]="incident_id" >
             <mat-option *ngFor="let incident of type_incident" [value]="incident">
@@ -78,6 +79,24 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
+
+        <mat-form-field class="full-width">
+          <mat-select formControlName="province" placeholder="Province" [(ngModel)]="provinceDistrict" [(value)]="province" > 
+            <mat-option *ngFor="let province of list_province" [value]="province">
+              {{province}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+          <mat-select formControlName="district" placeholder="district" [(value)]="district">
+            <mat-option *ngFor="let district of list_district[provinceDistrict]" [value]="district">
+              {{district}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        
         
         <mat-form-field class="full-width">
           <input matInput formControlName="message" placeholder="your message..." [(ngModel)]="message">
@@ -126,9 +145,28 @@
   <div class="filterCheck mat-card">
     <mat-checkbox *ngFor="let item of type_incident" color="primary" [value]="item" (change)="onCheckChange($event,item)">
       {{item}}
-    </mat-checkbox>
-    
+    </mat-checkbox>    
   </div>
+
+  <div class="filterProvince mat-card">
+    <mat-checkbox *ngFor="let item of list_province" color="primary" [value]="item" (change)="onProvinceDistrictfilter($event,item)">
+      {{item}}
+    </mat-checkbox>
+      <!-- <mat-accordion>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Self aware panel
+                </mat-panel-title>
+                <mat-panel-description>
+                  Currently I am {{panelOpenState ? 'open' : 'closed'}}
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+              <p>I'm visible because I am open</p>
+            </mat-expansion-panel>
+          </mat-accordion> -->
+  </div>
+ 
   
   
 

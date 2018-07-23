@@ -41,7 +41,59 @@ export class MapComponent implements OnInit, AfterViewInit {
  inputForm=true;
  addPointButton=false;
  filter=[];
-  filterCap = ["in", "incident_id"];
+ filterProvince=[];
+ filterCap = ["in", "incident_id"];
+ provinceDistrict:string; //"badakhshan";
+
+  list_province = ["badakhshan","baghlan","kunduz","takhar","balkh",
+                  "faryab","jowzan","samangan","sar-e pol","kabul",
+                  "kapisa", "logar", "panjshir", "parwan", "wardak",
+                  "kunar", "laghman", "nangarhar", "nuristan", "badghis",
+                  "bamyan", "farah", "ghor", "herat", "ghazni", "khost",
+                  "paktia","paktika", "daykundi", "helmand", "kandahar", "nimur",
+                  "oruzgan", "zabul"];
+  
+  list_district = { "badakhshan": ['arghanj khwa','argo','baharak','darayim',
+                                   'fayzabad','ishkashim','jurm','khash',
+                                   'khwahsan','kishim','kohistan','kuf ab',
+                                   'kuran wa munjan','maimay','nusay','ragh',
+                                   'shahri buzurg','shekay','shighnan','shuhada',
+                                   'tagab','tishkan','wakhan','wurduj','yaftali sufla',
+                                   'yamgan','yawan','zebak'],
+                    "baghlan": ["andharab","baghlan","baghlani jadid","burka","dahana i guri","dih salah","dushi","farang wa gharu","guzhargi nur","khinjan","khost wa fereng","khwaja hijran","nahrin","puli hisar","puli khumri","tala wa barfak"],
+                    "kunduz":["ali abad","archi","chardara","imam sahib","khan abad","kunduz","qalay-i-zal"],
+                    "takhar":["baharak","bangi","chah ab","chal","darqad","dashti qala","farkhar","hazar sumuch","iskhamis","kalafagan","khwaja baha wuddin","khwaja ghar","namak ab","rustaq","taluqan","warsaj","yangi qala"],
+                    "balkh":["balkh","chahar bolak","chahar kint","chimtal","dawlatabad","dihdadi","kaldar","khulmi","kishnindih","marmul","mazar-e Sharif","nahri shani","sholgara","shortepa","zari"],
+                    "faryab":["almar","andkhoy","bilchiragh","dawlat abad","gurziwan","khani chahar bagh","khawaja sabz posh","kohistan","maymana","pashtun kot","qaramqol","qaysar","qurghan","shirin tagab"],
+                    "jowzan":["aqcha","darzab","fayzabad","khamyab","khaniqa","khawaja du koh","mardyan","mingajik","qarqin","qush tepa","shibirgan"],
+                    "samangan":["aybak","dara-I-Sufi balla","dara-I-Sufi Payan","feroz nakhchir","hazrati sultan","khuram wa sarbagh","ruyi du ab"],
+                    "sar-e pol":["balkhab","gosfandi","kohistanat","sangcharak","sar-e pul","sayyad", "sozma qala"],
+                    "kabul":["bagrami","chahar asyab","deh sabz","farza","guldara","istalif","kabul","kalakan","khaki jabbar","mir bacha kot","mussahi","paghman","qarabagh","shakardara","surobi"],
+                    "kapisa":["alasay","hesa awal kohistan","hesa duwun kohistan","koh band","mahmud raqi","nijrab","tagab"],
+                    "logar":["azra","baraki barak","charkh","kharwar","khoshi","mohammad agha","pul-i-alam"],
+                    "panjshir":["anaba","bazarak","darah","khenj","paryan","rokha","shotul"],
+                    "parwan":["bagram","chaharikar","ghorband","jabal saraj","kohi safi","salang","sayed khel","shekh ali","shinwari","surkhi parsa"],
+                    "wardak":["chaki","day mirdad","hisa-i-awali bihsud","jaghatu","jalrez","markazi bihsud","maydan shahr","nirkh","saydabad"],
+                    "kunar":["asadabad","bar kunar","chapa dara","chawkay","dangam","dara-i-pech","ghaziabad","khas kunar","marawara","narang wa badil","nari","nurgal","shaygal wa shiltan","sirkanay","wata pur"],
+                    "laghman":["alingar","alishing","baad pakh","dawlat shah","mihtarlam","qarghayi"],
+                    "nangarhar":["achin","bati kot","behsud","chaparhar","dara-i-nur","dih bala","dur baba","goshta","hisarak","jalalabad","kama","khogyani","kot","kuz kunar","lal pur","muhmand dara","nazyan","pachir wa agam","rodat","sherzad","shinwar","surkh rod"],
+                    "nuristan":["bargi matal","du ab","kamdesh","mandol","nurgaram","parun","wama","waygal"],
+                    "badghis":["ab kamari","ghormach","jawand","muqur","murghab","qadis","qala-i-naw"],
+                    "bamyan":["bayman","kahmard","panjab","sayghan","shibar","waras","yakawlang"],
+                    "farah":["anar dara","bakwa","bala buluk","farah","gulistan","khaki safed","lash wa juwayn","pur chaman","pusht rod","qala i kah","shib koh"],
+                    "ghor":["chaghcharcaran","charsada","dawlat yar","du layna","lal wa sarjangal","pasaband","saghar","shahrak","taywara","tulak"],
+                    "herat":["adraskan","chishti sharif","farsi","ghoryan","gulran","guzara","hirat","injil","karukh","kohsan","kushk","kushki kuhna","obe","pashtun zarghun","shindad","zinda jan"],
+                    "ghazni":["ab band","ajristan","andar","dih yak","gelan","ghazni city","giro","jaghatu district","jaghuri","khugiani","khwaja umari","malistan","muqur","nawa","nawur","qarabagh","rashidan","waghaz","zana khan"],
+                    "khost":["bak","gurbuz","jaji maydan","khost","mandozai","musa khel","nadir shah kot","qalandar","sabari","shamal","spera","tani","tere zayi"],
+                    "paktia":["ahmadabad","chamkani","dand wa patan","gardez","jaji","jani khail","lazha ahmad khel","sayed karam","shwak","wuza zadran","zurmat"],
+                    "paktika":["barmal","dila","gayan","gomal","janikhel","mata khan","nika","omna","sar hawza","sarobi","sharan","terwa","urgun","wazakhwa","wor mamay","yahya khel","yusuf khel","zarghun shahr","ziruk"],
+                    "daykundi":["gizab","ishtarlay","khajran","khadir","kiti","miramor","nili","sangtakht","shahristan"],
+                    "helmand":["baghran","dishu","garmsir","gerishk","kajaki","khanashin","lashkargah","majrah","musa qala","nad ali","nawa-l-barakzayi","nawzad","sangin","washir"],
+                    "kandahar":["arghandab","dand","arghistan","daman","ghorak","kandahar","khakrez","maruf","maywand","miyan nasheen","naish","panjwaye","reg","shah wali kot","shorabak","spin boldak","zhari","takhta pool"],
+                    "nimur":["chahar burjak","chakhansur","kang","khash rod","zaranj"],
+                    "oruzgan":["chora","deh rahwod","khas uruzgan","shahidi hassas", "tairin kowt"],
+                    "zabul":["argahandab","atghar","daychopan","kakar","mizan","naw bahar","qalat","shah joy","shamulzayi","shinkay","tarnak wa jaldak"]
+                  };
   
   //data
   source: any;
@@ -158,9 +210,13 @@ export class MapComponent implements OnInit, AfterViewInit {
     this.form = this.fb.group({
       message:'',
       incident:['', Validators.required],
+      province:'',
+      district:'',
       coordinate:[[],Validators.required]
     })
   
+    console.log(this.list_district["kabul"]);
+    console.log(this.provinceDistrict);
         
    
   }
@@ -473,21 +529,38 @@ export class MapComponent implements OnInit, AfterViewInit {
     data.forEach(datum=>{
       console.log("MARKER", datum);
       let tmp = document.createElement('div');
-      
+      let province = datum.properties.province;
+      let district = datum.properties.district;
+      let new_province = province.replace(" ", "-");
+      let new_district = district.replace(" ", "-");
       if (datum.properties.incident_id === "flood") {
         tmp.className = 'marker-flood';
+        tmp.classList.add(new_province);
+        tmp.classList.add(new_district);
       } else if (datum.properties.incident_id === "fire") {
         tmp.className = 'marker-fire';
+        tmp.classList.add(new_province);
+        tmp.classList.add(new_district);
       } else if (datum.properties.incident_id === "gletser") {
         tmp.className = 'marker-gletser';
+        tmp.classList.add(new_province);
+        tmp.classList.add(new_district);
       } else if (datum.properties.incident_id === "hazard") {
         tmp.className = 'marker-hazard';
+        tmp.classList.add(new_province);
+        tmp.classList.add(new_district);
       } else if (datum.properties.incident_id === "crash"){
         tmp.className = 'marker-crash';
+        tmp.classList.add(new_province);
+        tmp.classList.add(new_district);
       } else if (datum.properties.incident_id === "landslide"){
         tmp.className = 'marker-landslide';
+        tmp.classList.add(new_province);
+        tmp.classList.add(new_district);
       } else if (datum.properties.incident_id === "drought") {
         tmp.className = 'marker-drought';
+        tmp.classList.add(new_province);
+        tmp.classList.add(new_district);
       }      
       else {
         tmp.className = 'marker-question-mark';
@@ -611,7 +684,11 @@ export class MapComponent implements OnInit, AfterViewInit {
       let coordinates = this.form.value.coordinate;
       let m = this.form.value.message;
       let i = this.form.value.incident;
-      const newMarker = new MapModel(coordinates, { message: m, incident_id: i });
+      let p = this.form.value.province;
+      let d = this.form.value.district;
+      let new_d = d.replace(" ","-")
+      console.log(new_d);
+      const newMarker = new MapModel(coordinates, { message: m, incident_id: i, province:p, district:new_d });
       this.map.flyTo({ center: coordinates });
       console.log("NEW", newMarker);
       this.socketService.send(newMarker);
@@ -674,27 +751,105 @@ export class MapComponent implements OnInit, AfterViewInit {
   // TO Filter
   generalFilter(filtermarker:string[]){
     console.log("GF",filtermarker);
-    let notElements = document.querySelectorAll('div[class^="marker-"]') as HTMLCollectionOf<HTMLElement>;
-    let notlengthClassName = notElements.length;
-    // console.log(notlengthClassName);
-    if(filtermarker.length>0){
+    let incidentElements = document.querySelectorAll('div[class^="marker-"]') as HTMLCollectionOf<HTMLElement>;
+    
+    let notlengthClassName = incidentElements.length;
+    
+    // if(filtermarker.length>0){
+    //   for (let i = 0; i < notlengthClassName; i++) {
+    //     incidentElements[i].style.display = 'none';
+    //   }
+    // }
+    // else{  
+    //   for (let i = 0; i < notlengthClassName; i++) {
+    //     incidentElements[i].style.display = 'block';
+    //   }
+     
+      
+    // }
+
+    // for(let i =0;i<filtermarker.length;i++){
+
+    //   let x = document.getElementsByClassName('marker-'+filtermarker[i]) as HTMLCollectionOf<HTMLElement>;
+    //   for (let i = 0; i < x.length; i++) {
+    //     x[i].style.display = 'block';
+    //   } 
+    // }
+
+    if (filtermarker.length > 0 ) {
       for (let i = 0; i < notlengthClassName; i++) {
-        notElements[i].style.display = 'none';
+        incidentElements[i].style.display = 'none';
       }
-    }else{
+
+      for (let i = 0; i < filtermarker.length; i++) {
+        if (this.filterProvince.length > 0) {
+          for (let j = 0; j < this.filterProvince.length; j++) {
+            let twoclass = document.getElementsByClassName('marker-' + filtermarker[i] + " " + this.filterProvince[j]) as HTMLCollectionOf<HTMLElement>;
+            console.log("TWO CLASS OR MORE", twoclass.length);
+            twoclass[i].style.display = 'block';
+          }
+        } else {
+          let twoclass = document.getElementsByClassName('marker-' + filtermarker[i]) as HTMLCollectionOf<HTMLElement>;
+          console.log("ONE CLASS OR MORE", twoclass.length);
+          for (let i = 0; i < twoclass.length; i++) {
+            twoclass[i].style.display = 'block';
+          }
+
+        }
+
+      }
+
+
+      
+    } else if ( this.filterProvince.length > 0){
       for (let i = 0; i < notlengthClassName; i++) {
-        notElements[i].style.display = 'block';
+        incidentElements[i].style.display = 'none';
       }
+      for (let i = 0; i <  this.filterProvince.length; i++) {
+        if (filtermarker.length> 0) {
+          for (let j = 0; j < this.filterProvince.length; j++) {
+            let twoclass = document.getElementsByClassName('marker-' + filtermarker[j] + " " + this.filterProvince[i]) as HTMLCollectionOf<HTMLElement>;
+            console.log("TWO CLASS OR MORE", twoclass.length);
+            twoclass[i].style.display = 'block';
+          }
+        } else {
+          let twoclass = document.getElementsByClassName(this.filterProvince[i]) as HTMLCollectionOf<HTMLElement>;
+          console.log("ONE CLASS OR MORE", twoclass.length);
+          for (let i = 0; i < twoclass.length; i++) {
+            twoclass[i].style.display = 'block';
+          }
+
+        }
+
+      }
+
     }
+    else if(filtermarker.length <1 && this.filterProvince.length<1 ) {
+      for (let i = 0; i < notlengthClassName; i++) {
+        incidentElements[i].style.display = 'block';
+      }
 
-    for(let i =0;i<filtermarker.length;i++){
 
-      let x = document.getElementsByClassName('marker-'+filtermarker[i]) as HTMLCollectionOf<HTMLElement>;
-      for (let i = 0; i < x.length; i++) {
-        x[i].style.display = 'block';
-      } 
     }
-
+    
+    // for(let i =0;i<filtermarker.length;i++){
+    //   if(this.filterProvince.length>0){
+    //     for (let j = 0; j < this.filterProvince.length; j++) {
+    //       let twoclass = document.getElementsByClassName('marker-' + filtermarker[i]+" "+this.filterProvince[j]) as HTMLCollectionOf<HTMLElement>;
+    //       console.log("TWO CLASS OR MORE", twoclass.length);
+    //       twoclass[i].style.display = 'block';
+    //     }
+    //   } else{
+    //     let twoclass = document.getElementsByClassName('marker-' + filtermarker[i]) as HTMLCollectionOf<HTMLElement>;
+    //     console.log("ONE CLASS OR MORE", twoclass.length);
+    //     for (let i = 0; i < twoclass.length; i++) {        
+    //       twoclass[i].style.display = 'block';
+    //     } 
+        
+    //   }     
+      
+    // }
+    
   }
   // TO Filter
   generalSetFilter(array){
@@ -705,10 +860,42 @@ export class MapComponent implements OnInit, AfterViewInit {
       console.log("array",array);
     }else{
       this.map.setFilter('firebase', ['in', "incident_id","crash","drought","fire","flood","gletser","hazard","landslide"]);
-
     }
 
 
+  }
+
+  // TO filter
+  filterProvDistrict(filter:string[]){
+    let lengtharray = filter.length;
+
+    let incidentElements = document.querySelectorAll('div[class^="marker-"]') as HTMLCollectionOf<HTMLElement>;
+    let notlengthClassName = incidentElements.length;
+    if (filter.length > 0) {
+      for (let i = 0; i < notlengthClassName; i++) {
+        incidentElements[i].style.display = 'none';
+      }
+      // this.generalFilter(this.filter);
+    } else {
+      for (let i = 0; i < notlengthClassName; i++) {
+        incidentElements[i].style.display = 'block';
+        console.log(incidentElements[i].style.display);        
+      }
+      
+     
+    }
+
+
+    for(let i=0;i<lengtharray;i++){
+      let provinceElement = document.getElementsByClassName(filter[i]) as HTMLCollectionOf<HTMLElement>;
+      console.log(provinceElement.length);
+      for(let i=0;i<provinceElement.length;i++){
+        provinceElement[i].style.display = 'block';
+        
+      }
+          
+    }
+    
   }
   //########## FILLTER-END
 
@@ -742,10 +929,30 @@ export class MapComponent implements OnInit, AfterViewInit {
     }
 
     this.generalFilter(this.filter);   
-    this.generalSetFilter(this.filterCap);
+    // this.generalSetFilter(this.filterCap);
     
 
   }
+
+  onProvinceDistrictfilter(e,item){
+    let rmspace = item.replace(" ","-")
+    if (e.checked) {
+      this.filterProvince.push(rmspace);
+      
+      console.log(this.filterProvince);
+    } else {
+      
+      let x = this.filterProvince.indexOf(rmspace);  
+      console.log(x); 
+
+      this.filterProvince.splice(x, 1);      
+      console.log(this.filterProvince);
+    }
+    // this.filterProvDistrict(this.filterProvince); 
+    this.generalFilter(this.filter);
+
+  }
+  
 
   
 }
